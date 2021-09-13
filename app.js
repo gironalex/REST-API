@@ -3,6 +3,8 @@
 // load modules
 const express = require('express');
 const morgan = require('morgan');
+const userRoutes = require('./routes/userRoute');
+const courseRoutes = require('./routes/courseRoute');
 
 // variable to enable global error logging
 const enableGlobalErrorLogging = process.env.ENABLE_GLOBAL_ERROR_LOGGING === 'true';
@@ -28,6 +30,9 @@ const models = require('./models');
   }
 })();
 
+// Add routes.
+app.use('/api', userRoutes);
+app.use('/api', courseRoutes);
 
 // setup a friendly greeting for the root route
 app.get('/', (req, res) => {
