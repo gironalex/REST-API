@@ -5,6 +5,7 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcrypt');
 
+/* Module Dependencies */
 const { User } = require('./models')
 const { asyncHandler } = require('./middleware/asyncHandler.js');
 const { authenticateUser } = require('./middleware/auth-user');
