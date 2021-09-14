@@ -62,7 +62,7 @@ router.post('/courses', authenticateUser, asyncHandler( async(req, res) => {
 }));
 
 /* A /api/courses/:id PUT route that will update the corresponding course and return a 204 HTTP status code and no content. */
-router.put('/courses/:id', authenticatedUser, asyncHandler( async(req, res) => {
+router.put('/courses/:id', authenticateUser, asyncHandler( async(req, res) => {
     try {
         const course = Course.findByPk(req.params.id);
         if (req.currentUser.id === course.id) {
@@ -88,7 +88,7 @@ router.put('/courses/:id', authenticatedUser, asyncHandler( async(req, res) => {
 
 /* A /api/courses/:id DELETE route that will delete the corresponding course and return a 204 HTTP status code and no content. */
 router.delete('/courses/:id', authenticateUser, asyncHandler( async(req, res) => {
-    const courseToDelete = course.findByPk(req.params.id);
+    const courseToDelete = Course.findByPk(req.params.id);
     if (req.currentUser.id !== courseToDelete.id) {
         res.status(403).json({"message": "Access Denied. User does not have access to complete action"}).end();
     } else {
