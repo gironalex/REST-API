@@ -6,9 +6,9 @@ const router = express.Router();
 const bcrypt = require('bcrypt');
 
 /* Module Dependencies */
-const { User } = require('./models')
-const { asyncHandler } = require('./middleware/asyncHandler.js');
-const { authenticateUser } = require('./middleware/auth-user');
+const { User } = require('../models')
+const { asyncHandler } = require('../middleware/asyncHandler.js');
+const { authenticateUser } = require('../middleware/auth-user');
 
 /* User GET route to provide details of the current Authenticated User */
 router.get('/users', authenticateUser, asyncHandler( async (req, res) => {
@@ -25,7 +25,7 @@ router.get('/users', authenticateUser, asyncHandler( async (req, res) => {
 router.post('/users', asyncHandler( async (req, res) => {
     try {
         const user = req.body;
-        const {password} = user;
+        let password = user.password;
         password ? user.password = bcrypt.hashSync(password, 10) : null;
 
         await User.create(req.body)

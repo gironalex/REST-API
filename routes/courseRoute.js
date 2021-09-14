@@ -5,9 +5,9 @@ const express = require('express');
 const router = express.Router();
 
 /* Module Dependencies */
-const { Course, User } = require('./models')
-const { asyncHandler } = require('./middleware/asyncHandler.js');
-const { authenticateUser } = require('./middleware/auth-user');
+const { Course, User } = require('../models')
+const { asyncHandler } = require('../middleware/asyncHandler.js');
+const { authenticateUser } = require('../middleware/auth-user');
 
 /* A /api/courses GET route that will return all courses including the User associated with each course and a 200 HTTP status code. */
 router.get('/courses', asyncHandler( async(req, res) => {
@@ -65,7 +65,7 @@ router.post('/courses', authenticateUser, asyncHandler( async(req, res) => {
 router.put('/courses/:id', authenticateUser, asyncHandler( async(req, res) => {
     try {
         const course = Course.findByPk(req.params.id);
-        if (req.currentUser.id === course.id) {
+        if (req.currentUser.id === course.userId) {
             if (course) {
                 await course.update(req.body);
                 res.status(204).json({"message": "Course has been updated"}).end();

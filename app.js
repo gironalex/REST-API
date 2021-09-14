@@ -18,6 +18,9 @@ app.use(morgan('dev'));
 // Testing the Database connection
 const models = require('./models');
 
+// 
+app.use(express.json());
+
 (async () => {
   await models.sequelize.sync();
   
