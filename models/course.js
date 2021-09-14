@@ -15,8 +15,30 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   Course.init({
-    title: DataTypes.STRING,
-    description: DataTypes.TEXT,
+    title: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notNull: {
+          msg: 'Title is required'
+        },
+        notEmpty: {
+          msg: 'Please provide a title for the course'
+        },
+      },
+    },
+    description: {
+      type: DataTypes.TEXT,
+      allowNull: false,
+      validate: {
+        notNull: {
+          msg: 'Text is required'
+        },
+        notEmpty: {
+          msg: 'Please provide a text description for the course'
+        },
+      },
+    },
     estimatedTime: DataTypes.STRING,
     materialsNeeded: DataTypes.STRING
   }, {
@@ -28,7 +50,7 @@ module.exports = (sequelize, DataTypes) => {
     Course.belongsTo(models.User, {
       as: 'User',
       foreignKey: {
-        fieldName: 'User',
+        fieldName: 'userId',
         allowNull: false,
       },
     });
