@@ -90,11 +90,15 @@ router.put('/courses/:id', authenticateUser, asyncHandler( async(req, res) => {
 router.delete('/courses/:id', authenticateUser, asyncHandler( async(req, res) => {
     const user = req.currentUser;
     const courseToDelete = await Course.findByPk(req.params.id);
-    if (courseToDelete.userId !== user.id) {
-        res.status(403).json({"message": "Access Denied. User does not have access to complete action"}).end();
+    if (courseToDelete) {
+        if (courseToDelete.userId !== user.id) {
+            res.status(403).json({"message": "Access Denied. User does not have access to complete action"}).end();
+        } else {
+            await courseToDelete.destroy();
+            res.status(204).json({"message": "Course has been deleted"}).end();
+        }
     } else {
-        await courseToDelete.destroy();
-        res.status(204).json({"message": "Course has been deleted"}).end();
+        res.status(404).json({"message": "Page not Found"}).end();
     }
 }));
 
