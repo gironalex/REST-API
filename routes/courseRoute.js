@@ -85,7 +85,7 @@ router.put('/courses/:id', authenticateUser, asyncHandler( async(req, res) => {
                 res.status(404).json({"message": "Course does not exist"}).end();
             }
         } else {
-            res.status(403).json({"message": "Access Denied. User does not have access to complete action"});
+            res.status(403).json({"message": "Access Denied. User does not have access to complete action"}).end();
         }
 
     } catch (error) {
