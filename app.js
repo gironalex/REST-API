@@ -15,11 +15,11 @@ const app = express();
 // setup morgan which gives us http request logging
 app.use(morgan('dev'));
 
-// Testing the Database connection
-const models = require('./models');
-
 // Parsing through the body request
 app.use(express.json());
+
+// Testing the Database connection
+const models = require('./models');
 
 (async () => {
   await models.sequelize.sync();
@@ -33,7 +33,7 @@ app.use(express.json());
   }
 })();
 
-// Add routes.
+// Adding routes.
 app.use('/api', userRoutes);
 app.use('/api', courseRoutes);
 
