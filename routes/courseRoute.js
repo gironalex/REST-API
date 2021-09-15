@@ -11,7 +11,7 @@ const { authenticateUser } = require('../middleware/auth-user');
 
 /* A /api/courses GET route that will return all courses including the User associated with each course and a 200 HTTP status code. */
 router.get('/courses', asyncHandler( async(req, res) => {
-    const courses = Course.findAll({
+    const courses = await Course.findAll({
         include: [{
           model: User,
           as: 'User',
@@ -29,7 +29,7 @@ router.get('/courses', asyncHandler( async(req, res) => {
 
 /* A /api/courses/:id GET route that will return the corresponding course including the User associated with that course and a 200 HTTP status code. */
 router.get('/courses/:id', asyncHandler( async(req, res) => {
-    const course = Course.findByPk(req.params.id, {
+    const course = await Course.findByPk(req.params.id, {
         include: [{
           model: User,
           as: 'User',
@@ -64,8 +64,8 @@ router.post('/courses', authenticateUser, asyncHandler( async(req, res) => {
 /* A /api/courses/:id PUT route that will update the corresponding course and return a 204 HTTP status code and no content. */
 router.put('/courses/:id', authenticateUser, asyncHandler( async(req, res) => {
     try {
-        const course = Course.findByPk(req.params.id);
-        if (req.currentUser.id === course.userId) {
+        const course = await Course.findByPk(req.params.id);
+        if (course.userId === req.currentUser.id) {
             if (course) {
                 await course.update(req.body);
                 res.status(204).json({"message": "Course has been updated"}).end();
@@ -88,7 +88,7 @@ router.put('/courses/:id', authenticateUser, asyncHandler( async(req, res) => {
 
 /* A /api/courses/:id DELETE route that will delete the corresponding course and return a 204 HTTP status code and no content. */
 router.delete('/courses/:id', authenticateUser, asyncHandler( async(req, res) => {
-    const courseToDelete = Course.findByPk(req.params.id);
+    const courseToDelete = await Course.findByPk(req.params.id);
     if (req.currentUser.id !== courseToDelete.id) {
         res.status(403).json({"message": "Access Denied. User does not have access to complete action"}).end();
     } else {
