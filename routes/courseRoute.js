@@ -23,6 +23,12 @@ router.get('/courses', asyncHandler( async(req, res) => {
             ],
           },
         }],
+        attributes: {
+            exclude: [
+              'createdAt',
+              'updatedAt',
+            ],
+        },
     });
     res.status(200).json(courses);
 }));
@@ -41,6 +47,12 @@ router.get('/courses/:id', asyncHandler( async(req, res) => {
             ],
           },
         }],
+        attributes: {
+            exclude: [
+              'createdAt',
+              'updatedAt',
+            ],
+        },
     });
     res.status(200).json(course);
 }));
