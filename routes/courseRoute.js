@@ -88,8 +88,9 @@ router.put('/courses/:id', authenticateUser, asyncHandler( async(req, res) => {
 
 /* A /api/courses/:id DELETE route that will delete the corresponding course and return a 204 HTTP status code and no content. */
 router.delete('/courses/:id', authenticateUser, asyncHandler( async(req, res) => {
+    const user = req.currentUser;
     const courseToDelete = await Course.findByPk(req.params.id);
-    if (req.currentUser.id !== courseToDelete.id) {
+    if (courseToDelete.userId !== user.id) {
         res.status(403).json({"message": "Access Denied. User does not have access to complete action"}).end();
     } else {
         await courseToDelete.destroy();

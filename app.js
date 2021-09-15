@@ -18,7 +18,7 @@ app.use(morgan('dev'));
 // Testing the Database connection
 const models = require('./models');
 
-// 
+// Parsing through the body request
 app.use(express.json());
 
 (async () => {
